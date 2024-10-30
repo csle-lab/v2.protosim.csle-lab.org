@@ -17,7 +17,7 @@ jobs:
         id: tag
         run: |
           TAG=$(cat tag.txt)
-          cho "::set-output name=tag::$TAG"
+          echo "::set-output name=tag::$TAG"
       - name: Checkout
         uses: actions/checkout@v3
         with:
