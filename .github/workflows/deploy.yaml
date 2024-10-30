@@ -1,0 +1,35 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    permissions:
+      contents: write
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Read tag
+        run: |
+          TAG=$(cat tag.txt)
+          echo "TAG=$TAG" >> $GITHUB_ENV
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          repository: csle-lab/protosim
+          ref: $TAG
+          path: ./protosim
+      - name: Build
+        run: |
+          yarn install
+          yarn build
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./protosim/protosim
+          publish_branch: pages
