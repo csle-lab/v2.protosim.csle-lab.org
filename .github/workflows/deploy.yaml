@@ -23,6 +23,7 @@ jobs:
           repository: csle-lab/protosim
           ref: $TAG
           path: ./protosim
+          ssh-key: ${{ secrets.PRIVATE_REPO_SSH_KEY }}
       - name: Build
         run: |
           yarn install
